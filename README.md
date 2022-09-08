@@ -11,5 +11,3 @@ GAS_REPORT=true npx hardhat test
 npx hardhat node
 npx hardhat run scripts/deploy.js
 ```
-
-solhint: solidity linter. Linting is the process of running a program that will analyze code for potential errors
