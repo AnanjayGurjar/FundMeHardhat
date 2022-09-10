@@ -2,15 +2,21 @@ const networkConfig = {
     //rinkeby
     4: {
         name: "rinkeby",
-        ethUsdPriceFeed: 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419
+        ethUsdPriceFeed: 0x5f4ec3df9cbd43714fe2740f5e3616155c5b8419,
     },
     //polygon
     137: {
         name: "polygon",
-        ethUsdPriceFeed: 0xF9680D99D6C9589e2a93a78A04A279e509205945
-    }
-}
+        ethUsdPriceFeed: 0xf9680d99d6c9589e2a93a78a04a279e509205945,
+    },
+};
 
+const developmentChain = ["hardhat", "localhost"];
+const DECIMALS = 8;
+const INITIAL_ANSWER = 200000000000;
 module.exports = {
     networkConfig,
-}
+    developmentChain,
+    DECIMALS,
+    INITIAL_ANSWER,
+};
