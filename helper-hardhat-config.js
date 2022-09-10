@@ -2,6 +2,7 @@ const networkConfig = {
     //rinkeby
     4: {
         name: "rinkeby",
+        //this address here must be stored as string
         ethUsdPriceFeed: "0x5f4ec3df9cbd43714fe2740f5e3616155c5b8419",
     },
     //polygon
