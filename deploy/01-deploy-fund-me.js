@@ -7,7 +7,8 @@
 
 const { networkConfig, developmentChain } = require("../helper-hardhat-config");
 const { network } = require("hardhat");
-// require("");
+const { verify } = require("../utils/verify");
+const { ConstructorFragment } = require("@ethersproject/abi");
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
     const { deploy, log } = deployments;
@@ -25,11 +26,23 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     } else {
         ethUsdPriceFeedAddress = networkConfig[chainId]["ethUsdPriceFeed"];
     }
+    const contructorArgs = [ethUsdPriceFeedAddress];
+    console.log(`********${ethUsdPriceFeedAddress}*********`);
     const fundMe = await deploy("FundMe", {
         from: deployer,
-        args: [ethUsdPriceFeedAddress], //arguments to the consturctor of the contract. In this case it is price feed address
+        args: contructorArgs, //arguments to the consturctor of the contract. In this case it is price feed address
         log: true,
+        waitConfirmations: network.config.blockConfirmations || 1,
     });
+
+    console.log(`********${fundMe.address}*********`);
+    //adding the function to auto verify
+    if (
+        !developmentChain.includes(network.name) &&
+        process.env.ETHERSCAN_API_KEY
+    ) {
+        await verify(fundMe.address, contructorArgs);
+    }
 
     log("-------------------------------------------------");
     module.exports.tags = ["all", "fundme"];
