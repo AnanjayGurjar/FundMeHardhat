@@ -43,4 +43,40 @@ describe("FundMe", async () => {
             assert.equal(funder, deployer);
         });
     });
+
+    describe("withdraw", async () => {
+        //before each function to first fund the contract before we can test withdraw
+        beforeEach(async () => {
+            await fundMe.fund({ value: sendValue });
+        });
+
+        it("withdraw ETH from a single founder", async () => {
+            //arrange
+            const startingFundMeBalance = await fundMe.provider.getBalance(
+                fundMe.address
+            );
+            const startingDeployerBalance = await fundMe.provider.getBalance(
+                deployer
+            );
+            //act
+            const transcationResponse = await fundMe.withdraw();
+            const trnasactionReciept = await transcationResponse.wait(1);
+            const { gasUsed, effectiveGasPrice } = trnasactionReciept;
+            const gasCost = gasUsed.mul(effectiveGasPrice);
+            const endingFundMeBalance = await fundMe.provider.getBalance(
+                fundMe.address
+            );
+            const endingDeployerBalance = await fundMe.provider.getBalance(
+                deployer
+            );
+
+            //assert
+            assert.equal(endingFundMeBalance.toString(), "0");
+            assert.equal(
+                startingFundMeBalance.add(startingDeployerBalance).toString(), //since starting fundMe balance will be of type BigNumber using just '+' won't work
+                //obviously the withdrawee will spend bit of gas to carry the transaction
+                endingDeployerBalance.add(gasCost).toString()
+            );
+        });
+    });
 });
