@@ -46,11 +46,11 @@ module.exports = {
         apiKey: ETHERSCAN_API_KEY,
     },
     gasReporter: {
-        enabled: false,
+        enabled: true,
         outputFile: "gas-report.txt", //output the gas costs to the mentioned file
         noColors: true,
         currency: "USD",
-        coinmarketcap: COINMARKETCAP_API_KEY, //api-key from CoinMarketCap to get price in usd
+        // coinmarketcap: COINMARKETCAP_API_KEY, //api-key from CoinMarketCap to get price in usd
         // token: "MATIC",     //to get gas prices in terms of polygon, similiarly we can add any currency
     },
 };

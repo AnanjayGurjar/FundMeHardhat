@@ -27,7 +27,6 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         ethUsdPriceFeedAddress = networkConfig[chainId]["ethUsdPriceFeed"];
     }
     const contructorArgs = [ethUsdPriceFeedAddress];
-    console.log(`********${ethUsdPriceFeedAddress}*********`);
     const fundMe = await deploy("FundMe", {
         from: deployer,
         args: contructorArgs, //arguments to the consturctor of the contract. In this case it is price feed address
@@ -35,7 +34,6 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         waitConfirmations: network.config.blockConfirmations || 1,
     });
 
-    console.log(`********${fundMe.address}*********`);
     //adding the function to auto verify
     if (
         !developmentChain.includes(network.name) &&
@@ -45,5 +43,5 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     }
 
     log("-------------------------------------------------");
-    module.exports.tags = ["all", "fundme"];
 };
+module.exports.tags = ["all", "fundme"];
